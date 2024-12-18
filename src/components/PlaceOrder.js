@@ -3,36 +3,33 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 const PlaceOrder = () => {
   const { state } = useLocation();
-  const navigate = useNavigate(); // Hook to navigate to the Payment page
+  const navigate = useNavigate();
 
-  // Extract data passed via state
-  const selectedAddOns = state?.selectedAddOns || [];
   const basePackage = state?.basePackage || {
-    description: "No Package Selected",
-    price: 0,
+    title: "Fully Furnished 2 Bedroom House With Pool",
+    price: 112,
+    description:
+      "Includes Master Bedroom, Bathroom, Kitchen, Storage, and Garden.",
   };
 
-  // Calculate totals
+  const selectedAddOns = state?.selectedAddOns || [];
   const addOnTotal = selectedAddOns.reduce(
-    (total, addOn) => total + addOn.price,
+    (sum, addOn) => sum + addOn.price,
     0
   );
   const totalCost = basePackage.price + addOnTotal;
 
-  // State to manage form inputs
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     phone: "",
     email: "",
-    username: "",
     country: "",
     address: "",
-    additionalNotes: "",
-    saveForLater: false,
+    notes: "",
+    saveDetails: false,
   });
 
-  // Handle form input change
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData({
@@ -41,354 +38,177 @@ const PlaceOrder = () => {
     });
   };
 
-  // Validate the form to check if all required fields are filled
-  const isFormValid = () => {
-    return (
-      formData.firstName &&
-      formData.lastName &&
-      formData.phone &&
-      formData.email &&
-      formData.username &&
-      formData.country &&
-      formData.address
-    );
-  };
-
-  // Handle the Confirm Order button click
-  const handleConfirmOrder = () => {
-    if (isFormValid()) {
-      // If form is valid, navigate to the Payment page
-      navigate("/review-order", {
-        state: { selectedAddOns, basePackage, totalCost, formData },
-      });
+  const handlePlaceOrder = () => {
+    if (formData.firstName && formData.lastName && formData.email) {
+      navigate("/review-order");
     } else {
-      // Show alert if the form is invalid
-      alert("Please fill in all required fields!");
+      alert("Please fill in all required fields.");
     }
   };
 
   return (
-    <div
-      style={{
-        padding: "20px",
-        borderRadius: "10px",
-        backgroundColor: "#f9f9f9",
-      }}
-    >
-      {/* Form Section */}
-      <div
-        style={{
-          marginBottom: "30px",
-          width: "80%",
-          marginLeft: "105px",
-          marginTop: "40px",
-          padding: "20px",
-          backgroundColor: "#fff",
-          borderRadius: "8px",
-          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-        }}
-      >
-        <h2>Personal Details</h2>
-        <form>
-          <div style={{ marginBottom: "10px" }}>
-            <label>First Name</label>
-            <br />
-            <input
-              type="text"
-              name="firstName"
-              value={formData.firstName}
-              onChange={handleChange}
-              style={{
-                width: "90%",
-                padding: "10px",
-                marginTop: "5px",
-                borderRadius: "5px",
-                border: "1px solid #ddd",
-              }}
-              required
-            />
+    <div className="bg-gray-50 min-h-screen py-8 px-4 md:px-16">
+      {/* Title */}
+      <h1 className="text-3xl font-semibold mb-6 text-left text-purple-600 uppercase">
+        Checkout
+      </h1>
+
+      {/* Billing Details Form */}
+      <div className="w-full lg:w-2/3 bg-white p-8 shadow-md border border-gray-300 mb-8 rounded-md">
+        <h2 className="text-2xl font-medium mb-6 text-gray-800 uppercase">
+          Billing Details
+        </h2>
+        <form className="space-y-5">
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-lg font-medium text-gray-800 mb-1">
+                First Name*
+              </label>
+              <input
+                type="text"
+                name="firstName"
+                value={formData.firstName}
+                onChange={handleChange}
+                className="w-full border border-gray-300 px-3 py-2 text-lg focus:ring-2 focus:ring-purple-600 rounded-md"
+              />
+            </div>
+            <div>
+              <label className="block text-lg font-medium text-gray-800 mb-1">
+                Last Name*
+              </label>
+              <input
+                type="text"
+                name="lastName"
+                value={formData.lastName}
+                onChange={handleChange}
+                className="w-full border border-gray-300 px-3 py-2 text-lg focus:ring-2 focus:ring-purple-600 rounded-md"
+              />
+            </div>
           </div>
-          <div style={{ marginBottom: "10px" }}>
-            <label>Last Name</label>
-            <br />
-            <input
-              type="text"
-              name="lastName"
-              value={formData.lastName}
-              onChange={handleChange}
-              style={{
-                width: "90%",
-                padding: "10px",
-                marginTop: "5px",
-                borderRadius: "5px",
-                border: "1px solid #ddd",
-              }}
-              required
-            />
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-lg font-medium text-gray-800 mb-1">
+                Phone*
+              </label>
+              <input
+                type="tel"
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                className="w-full border border-gray-300 px-3 py-2 text-lg focus:ring-2 focus:ring-purple-600 rounded-md"
+              />
+            </div>
+            <div>
+              <label className="block text-lg font-medium text-gray-800 mb-1">
+                Email*
+              </label>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                className="w-full border border-gray-300 px-3 py-2 text-lg focus:ring-2 focus:ring-purple-600 rounded-md"
+              />
+            </div>
           </div>
-          <div style={{ marginBottom: "10px" }}>
-            <label>Phone</label>
-            <br />
-            <input
-              type="tel"
-              name="phone"
-              value={formData.phone}
-              onChange={handleChange}
-              style={{
-                width: "90%",
-                padding: "10px",
-                marginTop: "5px",
-                borderRadius: "5px",
-                border: "1px solid #ddd",
-              }}
-              required
-            />
-          </div>
-          <div style={{ marginBottom: "10px" }}>
-            <label>Email</label>
-            <br />
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              style={{
-                width: "90%",
-                padding: "10px",
-                marginTop: "5px",
-                borderRadius: "5px",
-                border: "1px solid #ddd",
-              }}
-              required
-            />
-          </div>
-          <div style={{ marginBottom: "10px" }}>
-            <label>Username</label>
-            <br />
-            <input
-              type="text"
-              name="username"
-              value={formData.username}
-              onChange={handleChange}
-              style={{
-                width: "90%",
-                padding: "10px",
-                marginTop: "5px",
-                borderRadius: "5px",
-                border: "1px solid #ddd",
-              }}
-              required
-            />
-          </div>
-          <div style={{ marginBottom: "10px" }}>
-            <label>Country/Region</label>
-            <br />
+          <div>
+            <label className="block text-lg font-medium text-gray-800 mb-1">
+              Country/Region*
+            </label>
             <input
               type="text"
               name="country"
               value={formData.country}
               onChange={handleChange}
-              style={{
-                width: "90%",
-                padding: "10px",
-                marginTop: "5px",
-                borderRadius: "5px",
-                border: "1px solid #ddd",
-              }}
-              required
+              className="w-full border border-gray-300 px-3 py-2 text-lg focus:ring-2 focus:ring-purple-600 rounded-md"
             />
           </div>
-          <div style={{ marginBottom: "10px" }}>
-            <label>Address</label>
-            <br />
-            <textarea
+          <div>
+            <label className="block text-lg font-medium text-gray-800 mb-1">
+              Address*
+            </label>
+            <input
+              type="text"
               name="address"
               value={formData.address}
               onChange={handleChange}
-              style={{
-                width: "90%",
-                padding: "10px",
-                marginTop: "5px",
-                borderRadius: "5px",
-                border: "1px solid #ddd",
-              }}
-              required
+              className="w-full border border-gray-300 px-3 py-2 text-lg focus:ring-2 focus:ring-purple-600 rounded-md"
             />
           </div>
-          <div style={{ marginBottom: "10px" }}>
-            <label>Additional Notes</label>
-            <br />
+          <div>
+            <label className="block text-lg font-medium text-gray-800 mb-1">
+              Additional Notes (Optional)
+            </label>
             <textarea
-              name="additionalNotes"
-              value={formData.additionalNotes}
+              name="notes"
+              rows="3"
+              value={formData.notes}
               onChange={handleChange}
-              style={{
-                width: "90%",
-                padding: "10px",
-                marginTop: "5px",
-                borderRadius: "5px",
-                border: "1px solid #ddd",
-              }}
+              className="w-full border border-gray-300 px-3 py-2 text-lg focus:ring-2 focus:ring-purple-600 rounded-md"
             />
           </div>
-          <div style={{ marginBottom: "20px" }}>
-            <label>
-              <input
-                type="checkbox"
-                name="saveForLater"
-                checked={formData.saveForLater}
-                onChange={handleChange}
-                style={{ marginRight: "10px" }}
-              />
-              Save for later use
+          <div className="flex items-center">
+            <input
+              type="checkbox"
+              name="saveDetails"
+              checked={formData.saveDetails}
+              onChange={handleChange}
+              className="w-5 h-5 mr-2"
+            />
+            <label className="text-gray-700 font-medium text-lg">
+              Save billing details for later use
             </label>
           </div>
         </form>
       </div>
 
-      {/* Order Details Section */}
-      <div
-        style={{
-          padding: "20px",
-          border: "2px solid #ddd", // Border around the entire content
-          borderRadius: "10px", // Rounded corners
-          width: "80%", // Optional: Adjust width for better positioning
-          margin: "0 auto", // Center the content horizontally
-          backgroundColor: "#fff", // Background color for the box
-        }}
-      >
-        <h1 style={{ textAlign: "center" }}>Place Your Order</h1>
-
-        {/* Package Details */}
-        <h2>Your Package</h2>
-        <table
-          style={{
-            width: "100%",
-            borderCollapse: "collapse",
-            marginBottom: "20px",
-          }}
-        >
+      {/* Order Summary */}
+      <div className="w-full bg-white p-8 shadow-md border border-gray-300 rounded-md">
+        <h2 className="text-2xl font-medium mb-4 text-purple-600 uppercase">
+          Your Order
+        </h2>
+        <table className="w-full text-left border-collapse text-lg">
           <tbody>
             <tr>
-              <td
-                style={{
-                  border: "1px solid #ddd",
-                  padding: "10px",
-                  fontWeight: "bold",
-                }}
-              >
-                Description
+              <td className="p-3 font-medium border text-gray-700">
+                Fully Furnished Villa
               </td>
-              <td style={{ border: "1px solid #ddd", padding: "10px" }}>
-                {basePackage.description}
-              </td>
+              <td className="p-3 border text-gray-700">${basePackage.price}</td>
             </tr>
-            <tr>
-              <td
-                style={{
-                  border: "1px solid #ddd",
-                  padding: "10px",
-                  fontWeight: "bold",
-                }}
-              >
-                Price
-              </td>
-              <td
-                style={{
-                  border: "1px solid #ddd",
-                  padding: "10px",
-                  fontWeight: "bold",
-                  color: "rgb(233, 191, 7)",
-                }}
-              >
-                ${basePackage.price}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-
-        {/* Add-Ons Details */}
-        <h2>Selected Add-Ons</h2>
-        <table
-          style={{
-            width: "100%",
-            borderCollapse: "collapse",
-            marginBottom: "20px",
-          }}
-        >
-          <thead>
-            <tr style={{ backgroundColor: "#f0f0f0" }}>
-              <th
-                style={{
-                  border: "1px solid #ddd",
-                  padding: "10px",
-                  textAlign: "left",
-                }}
-              >
-                Room
-              </th>
-              <th
-                style={{
-                  border: "1px solid #ddd",
-                  padding: "10px",
-                  textAlign: "left",
-                }}
-              >
-                Size
-              </th>
-              <th
-                style={{
-                  border: "1px solid #ddd",
-                  padding: "10px",
-                  textAlign: "left",
-                }}
-              >
-                Price
-              </th>
-            </tr>
-          </thead>
-          <tbody>
             {selectedAddOns.map((addOn, index) => (
               <tr key={index}>
-                <td style={{ border: "1px solid #ddd", padding: "10px" }}>
-                  {addOn.room}
+                <td className="p-3 border text-gray-700">
+                  {addOn.room} (Add-On)
                 </td>
-                <td style={{ border: "1px solid #ddd", padding: "10px" }}>
-                  {addOn.size} m²
-                </td>
-                <td style={{ border: "1px solid #ddd", padding: "10px" }}>
-                  ${addOn.price}
-                </td>
+                <td className="p-3 border text-gray-700">${addOn.price}</td>
               </tr>
             ))}
+            <tr className="font-medium">
+              <td className="p-3 border text-gray-700">Sub Total</td>
+              <td className="p-3 border text-gray-700">${addOnTotal}</td>
+            </tr>
+            <tr className="font-semibold text-purple-600">
+              <td className="p-3 border text-lg">Total</td>
+              <td className="p-3 border text-lg">${totalCost}</td>
+            </tr>
           </tbody>
         </table>
 
-        {/* Total Price */}
-        <div style={{ textAlign: "center", marginBottom: "20px" }}>
-          <h2>Add-Ons Total: ${addOnTotal}</h2>
-          <h2>Total Cost: ${totalCost}</h2>
+        {/* Place Order Button */}
+        <div className="flex justify-center mt-6">
+          <button
+            onClick={handlePlaceOrder}
+            className="bg-purple-600 text-white py-2 px-6 font-medium text-lg hover:bg-purple-700 transition rounded-md"
+          >
+            Place Order
+          </button>
         </div>
       </div>
 
-      {/* Confirm Order Button */}
-      <div style={{ textAlign: "center", marginTop: "20px" }}>
-        <button
-          style={{
-            padding: "10px 20px",
-            fontSize: "18px",
-            backgroundColor: "rgb(233, 191, 7)",
-            color: "black",
-            border: "none",
-            borderRadius: "5px",
-            cursor: "pointer",
-            boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-          }}
-          onClick={handleConfirmOrder}
-        >
-          Confirm Order
-        </button>
-      </div>
+      <p className="text-red-500 text-center mt-6 text-sm">
+        *Your account will be created automatically after placing your first
+        order.
+      </p>
     </div>
   );
 };

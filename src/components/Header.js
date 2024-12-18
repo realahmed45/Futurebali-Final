@@ -230,7 +230,6 @@ const Header = () => {
           </div>
         </div>
       )}
-
       {/* Sign-In Modal */}
       {isSignInOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex justify-center items-center z-50">
@@ -241,7 +240,10 @@ const Header = () => {
             >
               &times;
             </span>
-            <h2 className="text-2xl font-bold text-center mb-6">Sign In</h2>
+            {/* Sign-In Text in Bold and Purple */}
+            <h2 className="text-2xl font-bold text-center text-purple-600 mb-6">
+              Sign In
+            </h2>
             <form
               onSubmit={(e) => {
                 e.preventDefault();

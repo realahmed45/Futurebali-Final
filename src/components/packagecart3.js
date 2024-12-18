@@ -1,156 +1,126 @@
-import React from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import packageImage from "../assets/images/package1cart1.png"; // Correct image path
-
-import bedroom from "../assets/images/package1cart1bedroom.png"; // Image for Bedroom
+import React, { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { FaTimesCircle } from "react-icons/fa";
+import packageImage from "../assets/images/package1cart1.png";
+import bedroom from "../assets/images/package1cart1bedroom.png";
 import bathroomImage from "../assets/images/package1cart1bathroom.png";
-import kitchen from "../assets/images/package1cart1kitchen.png";
-import storage from "../assets/images/package1cart1storage.png";
-import garden from "../assets/images/package1cart1.garden.png";
 
-import "./Package1Cart.css";
-
-const Package3Cart = () => {
-  const { state } = useLocation();
-  const selectedAddOns = state?.selectedAddOns || [];
+const Package1Cart = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
+  // Base package: Always present
   const basePackage = {
-    description:
-      "Furnished 1 Bedroom House. Bedroom: 18-20 m², Bathroom: 9-14 m², Kitchen: 12-14 m², Storage: 5 m², Garden: 121 m².",
-    price: 25000,
+    title: "Fully Furnished 2 Bedroom House With Pool",
+    price: 112,
+    details: [
+      { label: "Master Bedroom", size: "25m²" },
+      { label: "Master Bathroom", size: "14m²" },
+      { label: "Kitchen", size: "14-18m²" },
+      { label: "Garden", size: "26m²" },
+      { label: "Storage", size: "5m²" },
+      { label: "Swimming Pool", size: "6-8m²" },
+    ],
   };
 
-  const handlePlaceOrder = () => {
-    navigate("/place-order", { state: { selectedAddOns, basePackage } });
+  // Load selected add-ons from location state
+  const initialAddOns = location.state?.selectedAddOns || [];
+  const [selectedAddOns, setSelectedAddOns] = useState(initialAddOns);
+
+  const handleRemoveAddOn = (index) => {
+    setSelectedAddOns((prev) => prev.filter((_, i) => i !== index));
   };
 
-  // Add descriptions for each room type
-  const descriptions = {
-    Bedroom: "A cozy and spacious bedroom perfect for relaxation and comfort.",
-    Bathroom: "A modern bathroom equipped with top-tier amenities.",
-    Kitchen: "A fully furnished kitchen ideal for cooking and dining.",
-    Storage: "A compact storage space for your belongings.",
-    Garden: "A beautifully landscaped garden for outdoor leisure.",
-  };
+  const calculateSubTotal = () =>
+    selectedAddOns.reduce((sum, addOn) => sum + addOn.price, 0);
 
-  const basePrice = 25000;
   const calculateTotal = () => {
-    const addOnTotal = selectedAddOns.reduce(
-      (total, addOn) => total + addOn.price,
-      0
-    );
-    return basePrice + addOnTotal;
+    return basePackage.price + calculateSubTotal();
   };
 
   return (
-    <div className="packages1-container">
-      <div className="packages1-header">
-        <div className="packages1-header-content">
-          <h1 className="packages1-heading">Packages Cart</h1>
-          <p className="packages1-description">
-            <Link to="/" className="breadcrumb1-link">
-              Home
-            </Link>{" "}
-            &gt;
-            <Link to="/packages" className="breadcrumb1-link">
-              Packages
-            </Link>{" "}
-            &gt; Packages Cart
-          </p>
-        </div>
-      </div>
+    <div className="font-sans bg-gray-50 text-gray-800">
+      {/* Your Package */}
+      <h2 className="text-3xl font-bold text-gray-800 my-8 text-left ml-32">
+        Your Package
+      </h2>
 
-      {/* Your Package Section */}
-      <div className="your-package-section">
-        <h2>Your Package</h2>
-        <div className="package-box">
-          {/* Image on the Left */}
-          <img src={packageImage} alt="Package 1" className="package-imagec" />
-          {/* Description on the Right */}
-          <div className="package-description">
-            <span className="h-text">
-              <p>Furnished 1 Bedroom House</p>
-            </span>
-            <p>Bedroom: 18-20 m²</p>
-            <p>Bathroom: 9-14 m²</p>
-            <p>Kitchen: 12-14 m²</p>
-            <p>Storage: 5 m²</p>
-            <p>Garden: 121 m²</p>
-            <p>
-              <span className="yellow-textc">
-                <strong>Price: $25000</strong>
-              </span>
+      <div className="max-w-5xl mx-auto bg-white rounded-lg shadow-md relative hover:bg-purple-50 transition-all duration-300">
+        <div className="flex p-6 items-center">
+          <img
+            src={packageImage}
+            alt="Package"
+            className="w-1/3 h-48 object-cover rounded-lg"
+          />
+          <div className="ml-6">
+            <h3 className="text-2xl font-bold mb-4">{basePackage.title}</h3>
+            {basePackage.details.map((item, index) => (
+              <p key={index} className="text-gray-600 text-lg">
+                {item.label}: <span className="font-semibold">{item.size}</span>
+              </p>
+            ))}
+            <p className="text-3xl font-extrabold text-purple-600 mt-4">
+              ${basePackage.price}
             </p>
           </div>
         </div>
       </div>
 
-      {/* Display selected add-ons */}
-      <div className="selected-add-ons">
-        <h2>Selected Add-Ons</h2>
-        <div className="add-ons-container">
+      {/* Customizations */}
+      <h2 className="text-3xl font-bold text-gray-800 my-8 text-left ml-32">
+        Customization
+      </h2>
+      {selectedAddOns.length > 0 ? (
+        <div className="max-w-5xl mx-auto space-y-6">
           {selectedAddOns.map((addOn, index) => (
-            <div key={index} className="add-on-box">
-              {/* Image on the left */}
+            <div
+              key={index}
+              className="flex bg-white rounded-lg shadow-md p-6 items-center hover:bg-purple-50 transition-all duration-300 relative"
+            >
+              <button
+                onClick={() => handleRemoveAddOn(index)}
+                className="absolute bottom-4 right-4 bg-purple-600 text-white p-3 rounded-full hover:bg-purple-700 hover:scale-110 transition-all duration-300"
+              >
+                <FaTimesCircle />
+              </button>
               <img
-                src={
-                  addOn.room === "Bedroom"
-                    ? bedroom
-                    : addOn.room === "Bathroom"
-                    ? bathroomImage
-                    : addOn.room === "Apple"
-                    ? kitchen
-                    : addOn.room === "Storage"
-                    ? storage
-                    : garden
-                }
-                alt={`${addOn.room} Icon`}
-                className="add-on-image"
+                src={addOn.room === "Bedroom" ? bedroom : bathroomImage}
+                alt={addOn.room}
+                className="w-1/3 h-48 object-cover rounded-lg"
               />
-              {/* Details on the right */}
-              <div className="add-on-description">
-                <p>
-                  <strong>Room:</strong> {addOn.room}
-                </p>
-                <p>
+              <div className="ml-6 flex-1">
+                <h3 className="text-xl font-bold mb-2">{addOn.room}</h3>
+                <p className="text-gray-600 mb-2">
                   <strong>Size:</strong> {addOn.size}
                 </p>
-                <p>
-                  <strong>Price:</strong>{" "}
-                  <span className="yellow-text">{`$${addOn.price}`}</span>
-                </p>
-                <p>
-                  <strong>Description:</strong> {descriptions[addOn.room]}
+                <p className="text-gray-600">{addOn.description}</p>
+                <p className="text-2xl font-bold text-purple-600 mt-2">
+                  ${addOn.price}
                 </p>
               </div>
             </div>
           ))}
         </div>
-      </div>
+      ) : (
+        <p className="text-center text-gray-500">No add-ons selected.</p>
+      )}
 
-      {/* Total Cost */}
-      <div className="total-cost">
-        <h2>
-          Sub Total: $
-          {selectedAddOns.reduce((total, addOn) => total + addOn.price, 0)}
-        </h2>
-        <h2>Total Cost: ${calculateTotal()}</h2>
-
-        <div style={{ textAlign: "center", marginTop: "20px" }}>
+      {/* Total Section */}
+      <div className="max-w-5xl mx-auto bg-white rounded-lg shadow-lg p-6 mt-8 hover:bg-purple-50 transition-all duration-300">
+        <div className="flex justify-between text-lg font-bold text-gray-800 mb-4">
+          <span>Sub Total</span>
+          <span>${calculateSubTotal()}</span>
+        </div>
+        <div className="flex justify-between text-2xl font-bold text-purple-600">
+          <span>Total</span>
+          <span>${calculateTotal()}</span>
+        </div>
+        <div className="text-center">
           <button
-            style={{
-              padding: "10px 20px",
-              fontSize: "18px",
-              backgroundColor: "rgb(233, 191, 7)",
-              color: "white",
-              border: "none",
-              borderRadius: "8px",
-              cursor: "pointer",
-            }}
-            onClick={handlePlaceOrder}
+            onClick={() => navigate("/place-order")}
+            className="bg-purple-600 text-white mt-6 py-3 px-8 rounded-lg text-lg font-bold hover:bg-purple-700 hover:scale-105 transition-all duration-300"
           >
-            Place Order
+            Proceed
           </button>
         </div>
       </div>
@@ -158,4 +128,4 @@ const Package3Cart = () => {
   );
 };
 
-export default Package3Cart;
+export default Package1Cart;
