@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "./Settings.css";
 
 const Settings = () => {
   const [activeTab, setActiveTab] = useState("account");
@@ -25,9 +24,9 @@ const Settings = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            email,
-            firstname, // Corrected the name from firstname to firstName
+            firstname,
             lastname,
+            email,
             phone,
           }),
         }
@@ -37,7 +36,6 @@ const Settings = () => {
 
       if (response.ok) {
         alert("Account details updated successfully!");
-        console.log(data.user); // Optional: Use updated user data
       } else {
         alert(data.message || "Failed to update account details");
       }
@@ -59,8 +57,8 @@ const Settings = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            firstName: firstname, // Ensure keys match the backend
-            lastName: lastname,
+            firstname,
+            lastname,
             email,
             phone,
             country,
@@ -73,7 +71,7 @@ const Settings = () => {
       const data = await response.json();
 
       if (response.ok) {
-        alert(data.message); // Success message from the server
+        alert(data.message);
       } else {
         alert(data.message || "Failed to update card details");
       }
@@ -84,20 +82,25 @@ const Settings = () => {
   };
 
   return (
-    <div className="settings-container">
-      <div className="account">
-        <h2>Account Settings</h2>
-      </div>
-
-      <div className="button-container">
+    <div className="bg-gray-100 p-6 rounded-md shadow-lg mx-auto max-w-3xl">
+      {/* Tabs */}
+      <div className="flex justify-center mb-6">
         <button
-          className={activeTab === "account" ? "active" : ""}
+          className={`px-6 py-2 text-lg font-semibold border-b-4 transition-all duration-300 ${
+            activeTab === "account"
+              ? "border-purple-600 text-purple-600"
+              : "border-transparent text-gray-500"
+          }`}
           onClick={() => setActiveTab("account")}
         >
           Account Settings
         </button>
         <button
-          className={activeTab === "card" ? "active" : ""}
+          className={`px-6 py-2 text-lg font-semibold border-b-4 transition-all duration-300 ${
+            activeTab === "card"
+              ? "border-purple-600 text-purple-600"
+              : "border-transparent text-gray-500"
+          }`}
           onClick={() => setActiveTab("card")}
         >
           Card Details
@@ -106,126 +109,171 @@ const Settings = () => {
 
       {/* Account Settings Form */}
       {activeTab === "account" && (
-        <div className="form-container">
-          <h3>Update Account Details</h3>
-          <form onSubmit={handleAccountSave}>
-            <div className="form-group inline">
-              <div className="half-width">
-                <label>First Name</label>
+        <div className="bg-white p-6 rounded-md shadow">
+          <h3 className="text-xl font-bold text-gray-700 mb-4">
+            Update Account Details
+          </h3>
+          <form onSubmit={handleAccountSave} className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-600">
+                  First Name
+                </label>
                 <input
                   type="text"
                   value={firstname}
                   onChange={(e) => setfirstname(e.target.value)}
+                  className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-purple-500"
                   required
                 />
               </div>
-              <div className="half-width">
-                <label>Last Name</label>
+              <div>
+                <label className="block text-sm font-medium text-gray-600">
+                  Last Name
+                </label>
                 <input
                   type="text"
                   value={lastname}
                   onChange={(e) => setlastname(e.target.value)}
+                  className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-purple-500"
                   required
                 />
               </div>
             </div>
-            <div className="form-group">
-              <label>Email</label>
+            <div>
+              <label className="block text-sm font-medium text-gray-600">
+                Email
+              </label>
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-purple-500"
                 required
               />
             </div>
-            <div className="form-group">
-              <label>Phone</label>
+            <div>
+              <label className="block text-sm font-medium text-gray-600">
+                Phone
+              </label>
               <input
                 type="tel"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
+                className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-purple-500"
                 required
               />
             </div>
-            <button type="submit">Save Changes</button>
+            <button
+              type="submit"
+              className="w-full bg-purple-600 hover:bg-purple-500 text-white py-2 rounded-md"
+            >
+              Save Changes
+            </button>
           </form>
         </div>
       )}
 
       {/* Card Details Form */}
       {activeTab === "card" && (
-        <div className="form-container">
-          <h3>Update Card Details</h3>
-          <form onSubmit={handleCardSave}>
-            <div className="form-group inline">
-              <div className="half-width">
-                <label>First Name</label>
+        <div className="bg-white p-6 rounded-md shadow">
+          <h3 className="text-xl font-bold text-gray-700 mb-4">
+            Update Card Details
+          </h3>
+          <form onSubmit={handleCardSave} className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-600">
+                  First Name
+                </label>
                 <input
                   type="text"
                   value={firstname}
                   onChange={(e) => setfirstname(e.target.value)}
+                  className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-purple-500"
                   required
                 />
               </div>
-              <div className="half-width">
-                <label>Last Name</label>
+              <div>
+                <label className="block text-sm font-medium text-gray-600">
+                  Last Name
+                </label>
                 <input
                   type="text"
                   value={lastname}
                   onChange={(e) => setlastname(e.target.value)}
+                  className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-purple-500"
                   required
                 />
               </div>
             </div>
-            <div className="form-group inline">
-              <div className="half-width">
-                <label>Email</label>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-600">
+                  Email
+                </label>
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-purple-500"
                   required
                 />
               </div>
-              <div className="half-width">
-                <label>Phone</label>
+              <div>
+                <label className="block text-sm font-medium text-gray-600">
+                  Phone
+                </label>
                 <input
                   type="tel"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
+                  className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-purple-500"
                   required
                 />
               </div>
             </div>
-            <div className="form-group inline">
-              <div className="half-width">
-                <label>Country</label>
-                <input
-                  type="text"
-                  value={country}
-                  onChange={(e) => setCountry(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="half-width">
-                <label>Address</label>
-                <input
-                  type="text"
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
-                  required
-                />
-              </div>
-            </div>
-            <div className="form-group">
-              <label>Additional Details</label>
-              <textarea
-                value={additionalDetails}
-                onChange={(e) => setAdditionalDetails(e.target.value)}
+            <div>
+              <label className="block text-sm font-medium text-gray-600">
+                Country
+              </label>
+              <input
+                type="text"
+                value={country}
+                onChange={(e) => setCountry(e.target.value)}
+                className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-purple-500"
                 required
               />
             </div>
-            <button type="submit">Save Changes</button>
+            <div>
+              <label className="block text-sm font-medium text-gray-600">
+                Address
+              </label>
+              <input
+                type="text"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+                className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-purple-500"
+                required
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-600">
+                Additional Details
+              </label>
+              <textarea
+                value={additionalDetails}
+                onChange={(e) => setAdditionalDetails(e.target.value)}
+                className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-purple-500"
+                required
+              />
+            </div>
+            <button
+              type="submit"
+              className="w-full bg-purple-600 hover:bg-purple-500 text-white py-2 rounded-md"
+            >
+              Save Changes
+            </button>
           </form>
         </div>
       )}

@@ -1,39 +1,51 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import './Packages.css';
+import React from "react";
+import { Link } from "react-router-dom";
 
 const Packages = () => {
   return (
-    <div className="packages-container">
-      {/* Background section with single image */}
-      <div className="packages-header">
-        <div className="packages-header-content">
-          <h1 className="packages-heading">Packages</h1>
-          <p className="packages-description">
-            <Link to="/" className="breadcrumb-link">Home</Link> &gt; Packages
-          </p>
-        </div>
+    <div className="bg-gray-100">
+      {/* Heading */}
+      <div className="text-center py-12">
+        <h1 className="text-4xl font-bold text-gray-800 uppercase">Packages</h1>
       </div>
 
-      {/* New section for images Below the Background */}
-      <section className="image-gallery">
-        <div className="image-row">
-          <Link to="/packages/package1" className="image-link">
-            <img src={require('../assets/images/package1.png')} alt="Package 1" className="package-image" />
+      {/* Package Gallery Section */}
+      <section className="container mx-auto py-6 px-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+          {/* Package 1 */}
+          <Link
+            to="/packages/package1"
+            className="block overflow-hidden rounded-lg shadow-lg group"
+          >
+            <img
+              src={require("../assets/images/package1.png")}
+              alt="Package 1"
+              className="w-auto h-auto object-none group-hover:scale-105 transition-transform duration-300"
+            />
           </Link>
-          <Link to="/packages/package2" className="image-link">
-            <img src={require('../assets/images/package2.png')} alt="Package 2" className="package-image" />
+
+          {/* Package 2 */}
+          <Link
+            to="/packages/package2"
+            className="block overflow-hidden rounded-lg shadow-lg group"
+          >
+            <img
+              src={require("../assets/images/package2.png")}
+              alt="Package 2"
+              className="w-auto h-auto object-none group-hover:scale-105 transition-transform duration-300"
+            />
           </Link>
-          <Link to="/packages/package3" className="image-link">
-            <img src={require('../assets/images/package3.png')} alt="Package 3" className="package-image" />
-          </Link>
-        </div>
-        <div className="image-row">
-          <Link to="/packages/package4" className="image-link">
-            {/* <img src={require('../assets/images/package4.png')} alt="Package 4" className="package-image" /> */}
-          </Link>
-          <Link to="/packages/package5" className="image-link">
-            {/* <img src={require('../assets/images/package5.png')} alt="Package 5" className="package-image" /> */}
+
+          {/* Package 3 */}
+          <Link
+            to="/packages/package3"
+            className="block overflow-hidden rounded-lg shadow-lg group"
+          >
+            <img
+              src={require("../assets/images/package3.png")}
+              alt="Package 3"
+              className="w-auto h-auto object-none group-hover:scale-105 transition-transform duration-300"
+            />
           </Link>
         </div>
       </section>
