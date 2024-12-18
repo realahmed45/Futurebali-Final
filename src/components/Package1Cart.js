@@ -1,27 +1,28 @@
-import React from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import packageImage from '../assets/images/package1cart1.png'; // Correct image path
+import React from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import packageImage from "../assets/images/package1cart1.png"; // Correct image path
 
-import bedroom from '../assets/images/package1cart1bedroom.png'; // Image for Bedroom
-import bathroomImage from '../assets/images/package1cart1bathroom.png';
-import kitchen from '../assets/images/package1cart1kitchen.png';
-import storage from '../assets/images/package1cart1storage.png';
-import garden from '../assets/images/package1cart1.garden.png';
+import bedroom from "../assets/images/package1cart1bedroom.png"; // Image for Bedroom
+import bathroomImage from "../assets/images/package1cart1bathroom.png";
+import kitchen from "../assets/images/package1cart1kitchen.png";
+import storage from "../assets/images/package1cart1storage.png";
+import garden from "../assets/images/package1cart1.garden.png";
 
-import './Package1Cart.css';
+import "./Package1Cart.css";
 
 const Package1Cart = () => {
   const { state } = useLocation();
   const selectedAddOns = state?.selectedAddOns || [];
   const navigate = useNavigate();
-  
+
   const basePackage = {
-    description: "Furnished 1 Bedroom House. Bedroom: 18-20 m², Bathroom: 9-14 m², Kitchen: 12-14 m², Storage: 5 m², Garden: 121 m².",
+    description:
+      "Furnished 1 Bedroom House. Bedroom: 18-20 m², Bathroom: 9-14 m², Kitchen: 12-14 m², Storage: 5 m², Garden: 121 m².",
     price: 25000,
   };
 
   const handlePlaceOrder = () => {
-    navigate('/place-order', { state: { selectedAddOns, basePackage } });
+    navigate("/place-order", { state: { selectedAddOns, basePackage } });
   };
 
   // Add descriptions for each room type
@@ -35,13 +36,15 @@ const Package1Cart = () => {
 
   const basePrice = 25000;
   const calculateTotal = () => {
-    const addOnTotal = selectedAddOns.reduce((total, addOn) => total + addOn.price, 0);
+    const addOnTotal = selectedAddOns.reduce(
+      (total, addOn) => total + addOn.price,
+      0
+    );
     return basePrice + addOnTotal;
   };
 
-
   const handleReviewOrder = () => {
-    navigate('/review-order', { state: { selectedAddOns, basePackage } });
+    navigate("/place-order", { state: { selectedAddOns, basePackage } });
   };
 
   return (
@@ -50,8 +53,14 @@ const Package1Cart = () => {
         <div className="packages1-header-content">
           <h1 className="packages1-heading">Packages Cart</h1>
           <p className="packages1-description">
-            <Link to="/" className="breadcrumb1-link">Home</Link> &gt;
-            <Link to="/packages" className="breadcrumb1-link">Packages</Link> &gt; Packages Cart
+            <Link to="/" className="breadcrumb1-link">
+              Home
+            </Link>{" "}
+            &gt;
+            <Link to="/packages" className="breadcrumb1-link">
+              Packages
+            </Link>{" "}
+            &gt; Packages Cart
           </p>
         </div>
       </div>
@@ -64,13 +73,19 @@ const Package1Cart = () => {
           <img src={packageImage} alt="Package 1" className="package-imagec" />
           {/* Description on the Right */}
           <div className="package-description">
-            <span className="h-text"><p>Furnished 1 Bedroom House</p></span>
+            <span className="h-text">
+              <p>Furnished 1 Bedroom House</p>
+            </span>
             <p>Bedroom: 18-20 m²</p>
             <p>Bathroom: 9-14 m²</p>
             <p>Kitchen: 12-14 m²</p>
             <p>Storage: 5 m²</p>
             <p>Garden: 121 m²</p>
-            <p><span className="yellow-textc"><strong>Price: $25000</strong></span></p>
+            <p>
+              <span className="yellow-textc">
+                <strong>Price: $25000</strong>
+              </span>
+            </p>
           </div>
         </div>
       </div>
@@ -89,24 +104,34 @@ const Package1Cart = () => {
                 {/* Image on the left */}
                 <img
                   src={
-                    addOn.room === "Bedroom" ? bedroom :
-                    addOn.room === "Bathroom" ? bathroomImage :
-                    addOn.room === "Kitchen" ? kitchen :
-                    addOn.room === "Storage" ? storage :
-                    garden
+                    addOn.room === "Bedroom"
+                      ? bedroom
+                      : addOn.room === "Bathroom"
+                      ? bathroomImage
+                      : addOn.room === "Kitchen"
+                      ? kitchen
+                      : addOn.room === "Storage"
+                      ? storage
+                      : garden
                   }
                   alt={`${addOn.room} Icon`}
                   className="add-on-image"
                 />
                 {/* Details on the right */}
                 <div className="add-on-description">
-                  <p><strong>Room:</strong> {addOn.room}</p>
-                  <p><strong>Size:</strong> {addOn.size}</p>
                   <p>
-                    <strong>Price:</strong>{' '}
+                    <strong>Room:</strong> {addOn.room}
+                  </p>
+                  <p>
+                    <strong>Size:</strong> {addOn.size}
+                  </p>
+                  <p>
+                    <strong>Price:</strong>{" "}
                     <span className="yellow-text">{`$${addOn.price}`}</span>
                   </p>
-                  <p><strong>Description:</strong> {descriptions[addOn.room]}</p>
+                  <p>
+                    <strong>Description:</strong> {descriptions[addOn.room]}
+                  </p>
                 </div>
               </div>
             ))}
@@ -116,7 +141,10 @@ const Package1Cart = () => {
 
       {/* Total Cost */}
       <div className="total-cost">
-        <h2>Sub Total: ${selectedAddOns.reduce((total, addOn) => total + addOn.price, 0)}</h2>
+        <h2>
+          Sub Total: $
+          {selectedAddOns.reduce((total, addOn) => total + addOn.price, 0)}
+        </h2>
         <h2>Total Cost: ${calculateTotal()}</h2>
 
         <div style={{ textAlign: "center", marginTop: "20px" }}>

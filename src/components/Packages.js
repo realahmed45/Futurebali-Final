@@ -6,7 +6,9 @@ const Packages = () => {
     <div className="bg-gray-100">
       {/* Heading */}
       <div className="text-center py-12">
-        <h1 className="text-4xl font-bold text-gray-800 uppercase">Packages</h1>
+        <h1 className="text-4xl font-bold text-purple-600 uppercase">
+          Packages
+        </h1>
       </div>
 
       {/* Package Gallery Section */}

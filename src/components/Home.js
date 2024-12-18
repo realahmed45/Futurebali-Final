@@ -207,22 +207,66 @@ const Home = () => {
       </div>
 
       {/* Gallery Section */}
-      <div className="py-16 bg-gray-50 text-center">
+      <div className="py-8 bg-gray-50 text-center px-2 md:px-6">
         <h2 className="text-4xl font-extrabold text-purple-700 mb-2">
-          Our Gallery
+          Our Blogs Our Gallery
         </h2>
-        <p className="text-lg text-gray-600 mb-8">
+        <p className="text-lg font-bold text-gray-600 mb-8">
           Our Projects Blend Well With The Surroundings
         </p>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 px-6">
-          {galleryImages.map((img, index) => (
+
+        {/* Responsive Grid Layout */}
+        <div className="mx-auto max-w-screen-md grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+          <div className="col-span-2 row-span-2">
             <img
-              key={index}
-              src={require(`../assets/images/${img}`)}
-              alt={`Gallery ${index + 1}`}
-              className="w-full h-32 object-cover rounded-lg shadow-md hover:scale-105 transition-transform"
+              src={require("../assets/images/1.jpeg")}
+              alt="Apartment"
+              className="w-full h-[85%] object-cover rounded-lg shadow-md transform translate-y-[10%] mt-6"
             />
-          ))}
+          </div>
+          <div>
+            <img
+              src={require("../assets/images/2.jpeg")}
+              alt="B&B"
+              className="w-full h-28 md:h-36 object-cover rounded-lg shadow-md mt-16"
+            />
+          </div>
+          <div>
+            <img
+              src={require("../assets/images/3.jpeg")}
+              alt="Cabin"
+              className="w-full h-28 md:h-36 object-cover rounded-lg shadow-md mt-16"
+            />
+          </div>
+          <div className="col-span-2">
+            <img
+              src={require("../assets/images/4.jpeg")}
+              alt="Condos"
+              className="w-full h-32 md:h-40 object-cover rounded-lg shadow-md  scale-y-[1.18]"
+            />
+          </div>
+          <div>
+            <img
+              src={require("../assets/images/5.jpeg")}
+              alt="Dorm"
+              className="w-full h-28 md:h-36 object-cover rounded-lg shadow-md mb-6"
+            />
+          </div>
+          <div>
+            <img
+              src={require("../assets/images/6.jpeg")}
+              alt="House"
+              className="w-full h-28 md:h-36 object-cover rounded-lg shadow-md mb-20"
+            />
+          </div>
+          <div className="col-span-2">
+            <img
+              src={require("../assets/images/8.jpeg")}
+              alt="Villa"
+              style={{ height: "40%", transform: "scaleY(0.92)" }}
+              className="w-full object-cover rounded-lg shadow-md"
+            />
+          </div>
         </div>
       </div>
 
@@ -231,19 +275,26 @@ const Home = () => {
         <h2 className="text-4xl font-extrabold text-purple-700 mb-2">
           Our Blogs
         </h2>
-        <p className="text-lg text-gray-600 mb-8">Blog For Bali Travelers</p>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-6">
+        <p className="text-lg font-bold text-gray-600 mb-8">
+          Blog For Bali Travelers
+        </p>
+
+        {/* Center-aligned Container with Custom Width */}
+        <div
+          className="mx-auto grid grid-cols-1 md:grid-cols-3 gap-6"
+          style={{ width: "770px" }}
+        >
           {blogImages.map((img, index) => (
             <div
               key={index}
-              className="rounded-lg shadow-md overflow-hidden hover:scale-105 transition-transform"
+              className="rounded-lg shadow-md overflow-hidden hover:scale-105 transition-transform bg-white"
             >
               <img
                 src={require(`../assets/images/${img}`)}
                 alt={`Blog ${index + 1}`}
-                className="w-full h-32 object-cover"
+                className="w-full h-40 object-cover"
               />
-              <div className="p-4 bg-white">
+              <div className="p-4">
                 <h3 className="text-lg font-bold text-gray-800 mb-2">
                   Blog Title {index + 1}
                 </h3>

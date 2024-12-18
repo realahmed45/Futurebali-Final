@@ -10,7 +10,7 @@ import garden from "../assets/images/package1cart1.garden.png";
 
 import "./Package1Cart.css";
 
-const Package2Cart = () => {
+const Package3Cart = () => {
   const { state } = useLocation();
   const selectedAddOns = state?.selectedAddOns || [];
   const navigate = useNavigate();
@@ -158,4 +158,4 @@ const Package2Cart = () => {
   );
 };
 
-export default Package2Cart;
+export default Package3Cart;
