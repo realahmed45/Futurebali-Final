@@ -117,7 +117,7 @@ const Package1Cart = () => {
         </div>
         <div className="text-center">
           <button
-            onClick={() => navigate("/place-order")}
+            onClick={() => navigate("/review-order")}
             className="bg-purple-600 text-white mt-6 py-3 px-8 rounded-lg text-lg font-bold hover:bg-purple-700 hover:scale-105 transition-all duration-300"
           >
             Proceed

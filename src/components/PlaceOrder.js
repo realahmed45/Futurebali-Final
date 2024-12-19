@@ -40,7 +40,7 @@ const PlaceOrder = () => {
 
   const handlePlaceOrder = () => {
     if (formData.firstName && formData.lastName && formData.email) {
-      navigate("/review-order");
+      navigate("/payment");
     } else {
       alert("Please fill in all required fields.");
     }

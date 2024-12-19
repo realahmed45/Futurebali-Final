@@ -12,6 +12,8 @@ import ContactUs from "../components/ContactUs";
 import Package1Cart from "../components/Package1Cart";
 import Package2Cart from "../components/Package2Cart";
 import Package3Cart from "../components/packagecart3";
+import UserInfoForm from "../components/ReviewOrder1_2";
+import InheritanceForm from "../components/ReviewOrder1_3";
 
 import ReviewOrder from "../components/ReviewOrder";
 
@@ -49,9 +51,11 @@ const AppRoutes = () => {
             <Route path="/package2" element={<Package2 />} />
             <Route path="/package3" element={<Package3 />} />
             <Route path="/package1-cart" element={<Package1Cart />} />
+            <Route path="/review_order1_2" element={<UserInfoForm />} />
             <Route path="/package2-cart" element={<Package2Cart />} />
             <Route path="/package3-cart" element={<Package2Cart />} />
-            <Route path="/review-order" element={<ReviewOrder />} />{" "}
+            <Route path="/review_order1_3" element={<InheritanceForm />} />
+            <Route path="/review-order" element={<ReviewOrder />} />
             {/* Add this route */}
             <Route path="/place-order" element={<PlaceOrder />} />
             <Route path="/payment" element={<Payment />} />
