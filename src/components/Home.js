@@ -87,13 +87,19 @@ const Home = () => {
         className="h-screen bg-cover bg-center flex justify-center items-center text-white text-center"
         style={{ backgroundImage: `url(${homeImage})` }}
       >
-        <div className="flex gap-6 mt-20">
-          <button className="px-6 py-3 bg-purple-700 text-white rounded-lg hover:bg-purple-600 transition shadow-md">
+        <div className="flex gap-6 mt-44">
+          <Link
+            to="/packages"
+            className="px-6 py-3 bg-purple-700 text-white rounded-lg hover:bg-purple-600 transition shadow-md"
+          >
             View Packages
-          </button>
-          <button className="px-6 py-3 bg-purple-700 text-white rounded-lg hover:bg-purple-600 transition shadow-md">
+          </Link>
+          <Link
+            to="/contactUs"
+            className="px-6 py-3 bg-purple-700 text-white rounded-lg hover:bg-purple-600 transition shadow-md"
+          >
             Contact Us
-          </button>
+          </Link>
         </div>
       </div>
 
@@ -209,62 +215,65 @@ const Home = () => {
       {/* Gallery Section */}
       <div className="py-8 bg-gray-50 text-center px-2 md:px-6">
         <h2 className="text-4xl font-extrabold text-purple-700 mb-2">
-          Our Blogs Our Gallery
+          Our Gallery
         </h2>
         <p className="text-lg font-bold text-gray-600 mb-8">
           Our Projects Blend Well With The Surroundings
         </p>
 
         {/* Responsive Grid Layout */}
-        <div className="mx-auto max-w-screen-md grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+        <div
+          style={{ width: "80%", maxWidth: "770px", height: "100%" }}
+          className="mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3"
+        >
           <div className="col-span-2 row-span-2">
             <img
               src={require("../assets/images/1.jpeg")}
               alt="Apartment"
-              className="w-full h-[85%] object-cover rounded-lg shadow-md transform translate-y-[10%] mt-6"
+              className="w-full h-44 sm:h-[200px] md:h-[85%] object-cover rounded-lg shadow-md transform sm:translate-y-4 md:translate-y-[10%] mt-4 sm:mt-6"
             />
           </div>
           <div>
             <img
               src={require("../assets/images/2.jpeg")}
               alt="B&B"
-              className="w-full h-28 md:h-36 object-cover rounded-lg shadow-md mt-16"
+              className="w-full h-44 sm:h-36 md:h-36 object-cover rounded-lg shadow-md mt-2 sm:mt-8 md:mt-16"
             />
           </div>
           <div>
             <img
               src={require("../assets/images/3.jpeg")}
               alt="Cabin"
-              className="w-full h-28 md:h-36 object-cover rounded-lg shadow-md mt-16"
+              className="w-full h-44 sm:h-40 md:h-36 object-cover rounded-lg shadow-md mt-2 sm:mt-8 md:mt-16"
             />
           </div>
           <div className="col-span-2">
             <img
               src={require("../assets/images/4.jpeg")}
               alt="Condos"
-              className="w-full h-32 md:h-40 object-cover rounded-lg shadow-md  scale-y-[1.18]"
+              className="w-full h-48 sm:h-40 md:h-40 object-cover rounded-lg shadow-md scale-y-100 sm:scale-y-[1.18]"
             />
           </div>
           <div>
             <img
               src={require("../assets/images/5.jpeg")}
               alt="Dorm"
-              className="w-full h-28 md:h-36 object-cover rounded-lg shadow-md mb-6"
+              className="w-full h-full sm:h-full md:h-44 object-cover rounded-lg shadow-md mb-2 sm:mb-6"
             />
           </div>
           <div>
             <img
               src={require("../assets/images/6.jpeg")}
               alt="House"
-              className="w-full h-28 md:h-36 object-cover rounded-lg shadow-md mb-20"
+              className="w-full h-full sm:h-full md:h-44 object-cover rounded-lg shadow-md mb-8 sm:mb-20"
             />
           </div>
           <div className="col-span-2">
             <img
               src={require("../assets/images/8.jpeg")}
               alt="Villa"
-              style={{ height: "40%", transform: "scaleY(0.92)" }}
-              className="w-full object-cover rounded-lg shadow-md"
+              className="w-full  sm:h-36 md:h-36 object-cover rounded-lg shadow-md sm:scale-y-90 md:scale-y-[0.94] mb-10"
+              style={{ height: "180px" }}
             />
           </div>
         </div>
@@ -279,10 +288,10 @@ const Home = () => {
           Blog For Bali Travelers
         </p>
 
-        {/* Center-aligned Container with Custom Width */}
+        {/* Responsive Grid Layout for Blogs */}
         <div
-          className="mx-auto grid grid-cols-1 md:grid-cols-3 gap-6"
-          style={{ width: "770px" }}
+          className="mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"
+          style={{ width: "80%", maxWidth: "770px", height: "100%" }}
         >
           {blogImages.map((img, index) => (
             <div
@@ -292,13 +301,13 @@ const Home = () => {
               <img
                 src={require(`../assets/images/${img}`)}
                 alt={`Blog ${index + 1}`}
-                className="w-full h-40 object-cover"
+                className="w-full h-32 sm:h-40 object-cover"
               />
               <div className="p-4">
-                <h3 className="text-lg font-bold text-gray-800 mb-2">
+                <h3 className="text-md sm:text-lg font-bold text-gray-800 mb-2">
                   Blog Title {index + 1}
                 </h3>
-                <p className="text-gray-600">
+                <p className="text-sm sm:text-gray-600">
                   Explore modern designs and tips for building your dream home.
                 </p>
               </div>

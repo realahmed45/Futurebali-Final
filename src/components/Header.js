@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaBars, FaTimes, FaCaretDown } from "react-icons/fa";
+import emailjs from "emailjs-com"; // Import EmailJS
 
 const Header = () => {
   const [isSignInOpen, setIsSignInOpen] = useState(false);
@@ -38,25 +39,32 @@ const Header = () => {
     }
   };
 
+  // Generate and send OTP using EmailJS
   const sendOtpToEmail = async () => {
     if (!name || !email) {
       alert("Please enter your name and email.");
       return;
     }
 
+    // Generate a 6-digit OTP
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    setGeneratedOtp(otp);
+
     try {
-      const response = await fetch(
-        "https://obnoxious-britteny-nextgedev-b04d26c6.koyeb.app/send-otp",
+      const response = await emailjs.send(
+        "service_r39zkrm", // Replace with your EmailJS Service ID
+        "template_gvxyd5q", // Replace with your EmailJS Template ID
+
         {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ name, email }),
-        }
+          name: name, // Dynamically pass the name entered in the form
+          otp: otp, // Pass the dynamically generated OTP
+          to_email: email, // Pass the user's email
+        },
+        "zVTuReodh-Rdvi0n_" // Replace with your EmailJS Public Key
       );
 
-      const data = await response.json();
-      if (data.success) {
-        setGeneratedOtp(data.otp);
+      if (response.status === 200) {
+        alert("OTP sent successfully!");
         setIsOtpModalOpen(true);
         setIsSignInOpen(false);
       } else {
@@ -74,29 +82,9 @@ const Header = () => {
     if (otp === generatedOtp) {
       setOtpError("");
       setIsOtpModalOpen(false);
-
-      try {
-        const response = await fetch(
-          "https://obnoxious-britteny-nextgedev-b04d26c6.koyeb.app/check-user",
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ name, email }),
-          }
-        );
-
-        const data = await response.json();
-        if (response.ok) {
-          setUserName(name);
-          alert(data.message);
-          navigate("/");
-        } else {
-          alert("Verification failed. Please try again.");
-        }
-      } catch (error) {
-        console.error("Error verifying user:", error);
-        alert("Verification failed. Please try again.");
-      }
+      alert("OTP Verified Successfully!");
+      setUserName(name);
+      navigate("/");
     } else {
       setOtpError("Invalid OTP. Please try again.");
     }

@@ -1,10 +1,8 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import "./CaseStudy.css"; // Ensure the CSS file is imported
 
 const Gallery = () => {
   const [category, setCategory] = useState("All");
-  const [isSlidingOut, setIsSlidingOut] = useState(false); // To control sliding out animation
+  const [isSlidingOut, setIsSlidingOut] = useState(false);
 
   const imagePaths = {
     All: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
@@ -15,94 +13,51 @@ const Gallery = () => {
   };
 
   const handleCategoryChange = (newCategory) => {
-    setIsSlidingOut(true); // Start sliding out previous images
+    setIsSlidingOut(true);
     setTimeout(() => {
       setCategory(newCategory);
-      setIsSlidingOut(false); // Stop sliding out and show new images
-    }, 500); // Duration of sliding out animation (500ms)
+      setIsSlidingOut(false);
+    }, 500);
   };
 
   return (
-    <div className="packages-container">
+    <div className="p-8 bg-white text-center">
       {/* Header Section */}
-      <div className="packages-header">
-        <div className="packages-header-content">
-          <h1 className="packages-heading">Case Study</h1>
-          <p className="packages-description">
-            <Link to="/" className="breadcrumb-link">
-              Home
-            </Link>{" "}
-            &gt; Case Study
-          </p>
-        </div>
-      </div>
+      <h1 className="text-4xl font-extrabold text-purple-700 mb-8">Gallery</h1>
 
-      {/* Category Selection */}
-      <div style={{ textAlign: "center", padding: "20px 0" }}>
-        <p style={{ fontSize: "18px", color: "#555" }}>
-          Explore case studies across various categories to see our exceptional
-          work.
-        </p>
-        <div className="category-selection">
-          <p
-            onClick={() => handleCategoryChange("All")}
-            className={`category-link ${category === "All" ? "selected" : ""}`}
-          >
-            All
-          </p>
-          <p
-            onClick={() => handleCategoryChange("Bedroom")}
-            className={`category-link ${
-              category === "Bedroom" ? "selected" : ""
+      {/* Category Buttons */}
+      <div className="flex flex-wrap justify-center gap-4 mb-8">
+        {["All", "Bedroom", "Garden", "Kitchen", "Pool"].map((item) => (
+          <button
+            key={item}
+            onClick={() => handleCategoryChange(item)}
+            className={`py-2 px-6 text-lg font-medium border rounded-full transition duration-300 shadow-sm ${
+              category === item
+                ? "bg-purple-600 text-white border-purple-600"
+                : "bg-white text-purple-600 border-purple-600 hover:bg-purple-600 hover:text-white"
             }`}
           >
-            Bedroom
-          </p>
-          <p
-            onClick={() => handleCategoryChange("Garden")}
-            className={`category-link ${
-              category === "Garden" ? "selected" : ""
-            }`}
-          >
-            Garden
-          </p>
-          <p
-            onClick={() => handleCategoryChange("Kitchen")}
-            className={`category-link ${
-              category === "Kitchen" ? "selected" : ""
-            }`}
-          >
-            Kitchen
-          </p>
-          <p
-            onClick={() => handleCategoryChange("Pool")}
-            className={`category-link ${category === "Pool" ? "selected" : ""}`}
-          >
-            Pool
-          </p>
-        </div>
+            {item}
+          </button>
+        ))}
       </div>
 
       {/* Gallery Images */}
-      <div className="gallery-section">
-        {/* <h2 style={{ textAlign: 'center', margin: '20px 0' }}>Gallery</h2> */}
-        <div className="image-grid">
-          {imagePaths[category].map((image, index) => (
-            <div
-              key={index}
-              className={`image-container ${
-                isSlidingOut ? "slide-out" : "slide-in"
-              }`}
-              style={{ animationDelay: `${index * 0.2}s` }}
-            >
-              <img
-                src={require(`../assets/images/${image}.jpeg`)}
-                alt={`Category ${category} Image ${image}`}
-                className="gallery-image"
-              />
-            </div>
-          ))}
-        </div>
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 px-4">
+        {imagePaths[category].map((image, index) => (
+          <div
+            key={index}
+            className={`relative overflow-hidden rounded-md shadow-lg transform transition-all duration-300 hover:scale-105 ${
+              isSlidingOut ? "animate-fadeOut" : "animate-fadeIn"
+            }`}
+          >
+            <img
+              src={require(`../assets/images/${image}.jpeg`)}
+              alt={`Category ${category} Image ${image}`}
+              className="w-full h-40 sm:h-48 md:h-56 lg:h-60 object-cover rounded-md"
+            />
+          </div>
+        ))}
       </div>
     </div>
   );
