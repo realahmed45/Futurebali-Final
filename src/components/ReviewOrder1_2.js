@@ -1,19 +1,24 @@
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import Stepper from "./Stepper"; // Import the Stepper component
+import Stepper from "./Stepper";
+import Select from "react-select"; // Import react-select for country selection
+import countryList from "react-select-country-list"; // Use a library for country flags and codes
 
 const UserInfoForm = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
 
-  const steps = ["Review Order", "Place Order", "Confirmation"]; // Simplified steps
-  const currentStep = 1; // Set this dynamically based on the current page
+  const steps = ["Review Order", "Place Order", "Confirmation"];
+  const currentStep = 1;
+
+  const countryOptions = countryList().getData(); // Get country list with codes and flags
 
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
     dob: "",
     address: "",
+    country: null, // Updated to use react-select format
     email: "",
     passportId: "",
     frontImage: null,
@@ -29,6 +34,15 @@ const UserInfoForm = () => {
     newPeople[index] = {
       ...newPeople[index],
       [field]: value,
+    };
+    setPeople(newPeople);
+  };
+
+  const handleCountryChange = (index, selectedOption) => {
+    const newPeople = [...people];
+    newPeople[index] = {
+      ...newPeople[index],
+      country: selectedOption,
     };
     setPeople(newPeople);
   };
@@ -59,7 +73,6 @@ const UserInfoForm = () => {
     price: 0,
   };
 
-  // Calculate totals
   const addOnTotal = selectedAddOns.reduce(
     (total, addOn) => total + addOn.price,
     0
@@ -79,7 +92,7 @@ const UserInfoForm = () => {
       </h2>
       {people.map((person, index) => (
         <div key={index} className="bg-white p-6 rounded-lg shadow-md mb-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Name
@@ -133,6 +146,21 @@ const UserInfoForm = () => {
                 onChange={(e) =>
                   handleInputChange(index, "address", e.target.value)
                 }
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Country
+              </label>
+              <Select
+                options={countryOptions}
+                value={person.country}
+                onChange={(selectedOption) =>
+                  handleCountryChange(index, selectedOption)
+                }
+                placeholder="Select a country"
+                className="w-full border rounded-md"
               />
             </div>
 

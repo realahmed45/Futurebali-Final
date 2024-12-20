@@ -102,7 +102,6 @@ const Home = () => {
           </Link>
         </div>
       </div>
-
       {/* Packages Section */}
       <section className="py-8 px-4 bg-gray-50">
         <h2 className="text-center text-lg text-gray-500 uppercase mb-2">
@@ -136,7 +135,8 @@ const Home = () => {
         {/* Package Content */}
         <div className="container mx-auto max-w-screen-md grid grid-cols-1 md:grid-cols-3 gap-4">
           {Object.keys(packageDetails).map((key) => (
-            <div
+            <Link
+              to={`/package${key}`}
               key={key}
               className={`shadow-md rounded-md overflow-hidden transition transform ${
                 selectedPackage === Number(key) ? "scale-105" : ""
@@ -160,54 +160,58 @@ const Home = () => {
                   ))}
                 </ul>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </section>
 
       {/* Our Story Section */}
-      <div className="flex items-center justify-between py-16 px-6 bg-white">
-        <img
-          src={require(`../assets/images/${storyImages[0]}`)}
-          alt="Our Story"
-          className="w-1/3 rounded-lg shadow-md"
-        />
-        <div className="w-2/3 pl-6">
-          <h3 className="text-xl text-purple-600 font-semibold mb-2">
-            Our Story
-          </h3>
-          <h2 className="text-3xl font-bold text-gray-800 mb-4">
-            Your Dream Shaper
-          </h2>
-          <p className="text-base text-gray-600 leading-relaxed mb-4">
-            Are you looking for a construction company that can help you build
-            your dream home or business in a beautiful and natural setting? If
-            so, you have come to the right place. We are Classic Builders, the
-            construction company that specializes in low-cost, high-quality, and
-            classic design projects. We have a team of experts who can handle
-            any type of project, from residential to commercial, from small to
-            large. We work with you to create a design that suits your needs,
-            preferences, and budget.
-          </p>
-          <div className="relative mt-4">
-            <img
-              src={require(`../assets/images/${storyImages[currentImageIndex]}`)}
-              alt="Story Slider"
-              className="w-full h-[330px] object-cover rounded-lg shadow-md"
-            />
-
-            <button
-              className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-purple-700 transition"
-              onClick={handlePrevious}
-            >
-              <FaArrowLeft />
-            </button>
-            <button
-              className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-purple-700 transition"
-              onClick={handleNext}
-            >
-              <FaArrowRight />
-            </button>
+      <div className="py-16 bg-white">
+        <div
+          className="mx-auto px-6 flex items-center justify-between"
+          style={{ width: "824px" }} // Set the desired width here
+        >
+          <img
+            src={require(`../assets/images/${storyImages[0]}`)}
+            alt="Our Story"
+            className="w-1/3 h-full rounded-lg shadow-md  mb-28"
+          />
+          <div className="w-2/3 pl-6">
+            <h3 className="text-xl text-purple-600 font-semibold mb-2">
+              Our Story
+            </h3>
+            <h2 className="text-3xl font-bold text-gray-800 mb-4">
+              Your Dream Shaper
+            </h2>
+            <p className="text-base text-gray-600 leading-relaxed mb-4 ">
+              Are you looking for a construction company that can help you build
+              your dream home or business in a beautiful and natural setting? If
+              so, you have come to the right place. We are Classic Builders, the
+              construction company that specializes in low-cost, high-quality,
+              and classic design projects. We have a team of experts who can
+              handle any type of project, from residential to commercial, from
+              small to large. We work with you to create a design that suits
+              your needs, preferences, and budget.
+            </p>
+            <div className="relative mt-4">
+              <img
+                src={require(`../assets/images/${storyImages[currentImageIndex]}`)}
+                alt="Story Slider"
+                className="w-full h-[180px] object-cover rounded-lg shadow-md"
+              />
+              <button
+                className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-purple-700 transition"
+                onClick={handlePrevious}
+              >
+                <FaArrowLeft />
+              </button>
+              <button
+                className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-purple-700 transition"
+                onClick={handleNext}
+              >
+                <FaArrowRight />
+              </button>
+            </div>
           </div>
         </div>
       </div>

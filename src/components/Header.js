@@ -1,19 +1,17 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaBars, FaTimes, FaCaretDown } from "react-icons/fa";
-import emailjs from "emailjs-com"; // Import EmailJS
+import emailjs from "emailjs-com";
 
 const Header = () => {
   const [isSignInOpen, setIsSignInOpen] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
   const [generatedOtp, setGeneratedOtp] = useState(null);
   const [isOtpModalOpen, setIsOtpModalOpen] = useState(false);
   const [otpError, setOtpError] = useState("");
-  const [userName, setUserName] = useState("");
-  const [userOccupation, setUserOccupation] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
   const navigate = useNavigate();
 
@@ -22,7 +20,6 @@ const Header = () => {
   const handleCloseModal = () => {
     setIsSignInOpen(false);
     setIsOtpModalOpen(false);
-    setName("");
     setEmail("");
     setOtp("");
     setOtpError("");
@@ -32,35 +29,27 @@ const Header = () => {
     const confirmLogout = window.confirm("Are you sure you want to log out?");
     if (confirmLogout) {
       localStorage.removeItem("authToken");
-      setUserName("");
-      setUserOccupation("");
+      setIsLoggedIn(false);
       setShowOptions(false);
       navigate("/");
     }
   };
 
-  // Generate and send OTP using EmailJS
   const sendOtpToEmail = async () => {
-    if (!name || !email) {
-      alert("Please enter your name and email.");
+    if (!email) {
+      alert("Please enter your email.");
       return;
     }
 
-    // Generate a 6-digit OTP
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     setGeneratedOtp(otp);
 
     try {
       const response = await emailjs.send(
-        "service_r39zkrm", // Replace with your EmailJS Service ID
-        "template_gvxyd5q", // Replace with your EmailJS Template ID
-
-        {
-          name: name, // Dynamically pass the name entered in the form
-          otp: otp, // Pass the dynamically generated OTP
-          to_email: email, // Pass the user's email
-        },
-        "zVTuReodh-Rdvi0n_" // Replace with your EmailJS Public Key
+        "service_r39zkrm",
+        "template_gvxyd5q",
+        { otp, to_email: email },
+        "zVTuReodh-Rdvi0n_"
       );
 
       if (response.status === 200) {
@@ -82,8 +71,8 @@ const Header = () => {
     if (otp === generatedOtp) {
       setOtpError("");
       setIsOtpModalOpen(false);
+      setIsLoggedIn(true); // Set logged-in status
       alert("OTP Verified Successfully!");
-      setUserName(name);
       navigate("/");
     } else {
       setOtpError("Invalid OTP. Please try again.");
@@ -132,29 +121,28 @@ const Header = () => {
         </div>
 
         {/* User Options */}
-        {userName ? (
+        {isLoggedIn ? (
           <div className="relative">
             <button
               className="flex items-center space-x-2 bg-purple-600 px-4 py-2 text-white font-bold rounded-md hover:bg-purple-500 focus:outline-none"
               onClick={() => setShowOptions(!showOptions)}
             >
-              <span>{`👤 ${userName}`}</span>
+              <span>👤</span>
               <FaCaretDown />
             </button>
             {showOptions && (
-              <div
-                className="absolute right-0 mt-2 w-48 bg-white text-black rounded-md shadow-lg z-50"
-                onClick={() => setShowOptions(false)}
-              >
+              <div className="absolute right-0 mt-2 w-48 bg-white text-black rounded-md shadow-lg z-50">
                 <Link
                   to="/settings"
                   className="block px-4 py-2 text-purple-600 hover:bg-purple-100 rounded-t-md"
+                  onClick={() => setShowOptions(false)}
                 >
                   Account Settings
                 </Link>
                 <Link
                   to="/history"
                   className="block px-4 py-2 text-purple-600 hover:bg-purple-100"
+                  onClick={() => setShowOptions(false)}
                 >
                   Order History
                 </Link>
@@ -177,47 +165,6 @@ const Header = () => {
         )}
       </nav>
 
-      {/* Sidebar for Smaller Screens */}
-      {isSidebarOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50">
-          <div className="bg-gray-800 h-full w-64 p-6">
-            <button
-              className="text-white text-2xl mb-6 hover:bg-purple-500 rounded-lg p-2 transition"
-              onClick={() => setIsSidebarOpen(false)}
-            >
-              <FaTimes />
-            </button>
-            <Link
-              to="/"
-              className="block text-white text-lg mb-4 hover:bg-purple-500 p-2 rounded-md"
-              onClick={() => setIsSidebarOpen(false)}
-            >
-              Home
-            </Link>
-            <Link
-              to="/packages"
-              className="block text-white text-lg mb-4 hover:bg-purple-500 p-2 rounded-md"
-              onClick={() => setIsSidebarOpen(false)}
-            >
-              Packages
-            </Link>
-            <Link
-              to="/contactUs"
-              className="block text-white text-lg mb-4 hover:bg-purple-500 p-2 rounded-md"
-              onClick={() => setIsSidebarOpen(false)}
-            >
-              Contact Us
-            </Link>
-            <Link
-              to="/gallery"
-              className="block text-white text-lg mb-4 hover:bg-purple-500 p-2 rounded-md"
-              onClick={() => setIsSidebarOpen(false)}
-            >
-              Gallery
-            </Link>
-          </div>
-        </div>
-      )}
       {/* Sign-In Modal */}
       {isSignInOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex justify-center items-center z-50">
@@ -228,7 +175,6 @@ const Header = () => {
             >
               &times;
             </span>
-            {/* Sign-In Text in Bold and Purple */}
             <h2 className="text-2xl font-bold text-center text-purple-600 mb-6">
               Sign In
             </h2>
@@ -238,16 +184,6 @@ const Header = () => {
                 sendOtpToEmail();
               }}
             >
-              <div className="mb-4">
-                <label className="block font-bold text-black mb-2">Name</label>
-                <input
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="w-full px-4 py-3 border text-black rounded-md"
-                  required
-                />
-              </div>
               <div className="mb-4">
                 <label className="block font-bold text-black mb-2">Email</label>
                 <input

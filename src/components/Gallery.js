@@ -21,20 +21,20 @@ const Gallery = () => {
   };
 
   return (
-    <div className="p-8 bg-white text-center">
+    <div className="p-6 bg-white text-center">
       {/* Header Section */}
-      <h1 className="text-4xl font-extrabold text-purple-700 mb-8">Gallery</h1>
+      <h1 className="text-3xl font-bold text-purple-700 mt-0 mb-2">Gallery</h1>
 
       {/* Category Buttons */}
-      <div className="flex flex-wrap justify-center gap-4 mb-8">
+      <div className="flex flex-wrap justify-center gap-3 mb-4">
         {["All", "Bedroom", "Garden", "Kitchen", "Pool"].map((item) => (
           <button
             key={item}
             onClick={() => handleCategoryChange(item)}
-            className={`py-2 px-6 text-lg font-medium border rounded-full transition duration-300 shadow-sm ${
+            className={`py-1 px-3 text-sm font-medium transition duration-300 shadow-sm ${
               category === item
-                ? "bg-purple-600 text-white border-purple-600"
-                : "bg-white text-purple-600 border-purple-600 hover:bg-purple-600 hover:text-white"
+                ? "bg-purple-600 text-white border-black"
+                : "bg-white text-purple-600 border-black hover:bg-purple-600 hover:text-white"
             }`}
           >
             {item}
@@ -43,7 +43,7 @@ const Gallery = () => {
       </div>
 
       {/* Gallery Images */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 px-4">
+      <div className="mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-4xl">
         {imagePaths[category].map((image, index) => (
           <div
             key={index}
@@ -54,7 +54,7 @@ const Gallery = () => {
             <img
               src={require(`../assets/images/${image}.jpeg`)}
               alt={`Category ${category} Image ${image}`}
-              className="w-full h-40 sm:h-48 md:h-56 lg:h-60 object-cover rounded-md"
+              className="w-80 h-auto object-cover rounded-md mx-auto"
             />
           </div>
         ))}

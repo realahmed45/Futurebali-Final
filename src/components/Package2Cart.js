@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { FaTimesCircle } from "react-icons/fa";
 import packageImage from "../assets/images/package1cart1.png";
-import bedroom from "../assets/images/package1cart1bedroom.png";
-import bathroomImage from "../assets/images/package1cart1bathroom.png";
 
 const Package1Cart = () => {
   const navigate = useNavigate();
@@ -39,86 +37,92 @@ const Package1Cart = () => {
   };
 
   return (
-    <div className="font-sans bg-gray-50 text-gray-800">
+    <div className="font-sans bg-gray-50 text-gray-800 max-w-3xl mx-auto p-4 rounded-lg shadow-md">
       {/* Your Package */}
-      <h2 className="text-3xl font-bold text-gray-800 my-8 text-left ml-32">
-        Your Package
-      </h2>
+      <h2 className="text-xl font-bold text-gray-800 mb-4">Your Package</h2>
 
-      <div className="max-w-5xl mx-auto bg-white rounded-lg shadow-md relative hover:bg-purple-50 transition-all duration-300">
-        <div className="flex p-6 items-center">
-          <img
-            src={packageImage}
-            alt="Package"
-            className="w-1/3 h-48 object-cover rounded-lg"
-          />
-          <div className="ml-6">
-            <h3 className="text-2xl font-bold mb-4">{basePackage.title}</h3>
+      <div className="bg-white rounded-lg shadow-md p-3 flex items-start hover:bg-purple-50 transition-all duration-300">
+        <img
+          src={packageImage}
+          alt="Package"
+          className="w-1/4 h-24 object-cover rounded-lg"
+        />
+        <div className="ml-3 flex-1">
+          <h3 className="text-lg font-bold mb-2">{basePackage.title}</h3>
+          <div className="grid grid-cols-2 gap-1 text-sm">
             {basePackage.details.map((item, index) => (
-              <p key={index} className="text-gray-600 text-lg">
+              <p key={index} className="text-gray-600">
                 {item.label}: <span className="font-semibold">{item.size}</span>
               </p>
             ))}
-            <p className="text-3xl font-extrabold text-purple-600 mt-4">
-              ${basePackage.price}
-            </p>
           </div>
+          <p className="text-lg font-extrabold text-purple-600 mt-2">
+            ${basePackage.price}
+          </p>
         </div>
       </div>
 
-      {/* Customizations */}
-      <h2 className="text-3xl font-bold text-gray-800 my-8 text-left ml-32">
-        Customization
-      </h2>
+      {/* Add-Ons */}
+      <h2 className="text-xl font-bold text-gray-800 mt-4 mb-2">Add Ons</h2>
       {selectedAddOns.length > 0 ? (
-        <div className="max-w-5xl mx-auto space-y-6">
-          {selectedAddOns.map((addOn, index) => (
-            <div
-              key={index}
-              className="flex bg-white rounded-lg shadow-md p-6 items-center hover:bg-purple-50 transition-all duration-300 relative"
-            >
-              <button
-                onClick={() => handleRemoveAddOn(index)}
-                className="absolute bottom-4 right-4 bg-purple-600 text-white p-3 rounded-full hover:bg-purple-700 hover:scale-110 transition-all duration-300"
-              >
-                <FaTimesCircle />
-              </button>
-              <img
-                src={addOn.room === "Bedroom" ? bedroom : bathroomImage}
-                alt={addOn.room}
-                className="w-1/3 h-48 object-cover rounded-lg"
-              />
-              <div className="ml-6 flex-1">
-                <h3 className="text-xl font-bold mb-2">{addOn.room}</h3>
-                <p className="text-gray-600 mb-2">
-                  <strong>Size:</strong> {addOn.size}
-                </p>
-                <p className="text-gray-600">{addOn.description}</p>
-                <p className="text-2xl font-bold text-purple-600 mt-2">
-                  ${addOn.price}
-                </p>
-              </div>
-            </div>
-          ))}
+        <div className="bg-white rounded-lg shadow-md p-3">
+          <table className="table-auto w-full text-sm text-gray-800">
+            <thead>
+              <tr className="border-b">
+                {selectedAddOns.map((addOn, index) => (
+                  <th
+                    key={index}
+                    className="px-2 py-1 font-bold text-purple-600 text-center"
+                  >
+                    {addOn.room}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                {selectedAddOns.map((addOn, index) => (
+                  <td key={index} className="px-2 py-1 text-center">
+                    {addOn.size}
+                  </td>
+                ))}
+              </tr>
+              <tr>
+                {selectedAddOns.map((addOn, index) => (
+                  <td key={index} className="px-2 py-1 text-center">
+                    <div className="flex justify-center items-center space-x-2">
+                      <span>${addOn.price}</span>
+                      <button
+                        onClick={() => handleRemoveAddOn(index)}
+                        className="text-red-600 hover:text-red-800"
+                      >
+                        <FaTimesCircle size={14} />
+                      </button>
+                    </div>
+                  </td>
+                ))}
+              </tr>
+            </tbody>
+          </table>
         </div>
       ) : (
-        <p className="text-center text-gray-500">No add-ons selected.</p>
+        <p className="text-gray-500 text-center">No add-ons selected.</p>
       )}
 
       {/* Total Section */}
-      <div className="max-w-5xl mx-auto bg-white rounded-lg shadow-lg p-6 mt-8 hover:bg-purple-50 transition-all duration-300">
-        <div className="flex justify-between text-lg font-bold text-gray-800 mb-4">
+      <div className="bg-white rounded-lg shadow-md p-3 mt-4">
+        <div className="flex justify-between text-sm font-bold text-gray-800 mb-2">
           <span>Sub Total</span>
           <span>${calculateSubTotal()}</span>
         </div>
-        <div className="flex justify-between text-2xl font-bold text-purple-600">
+        <div className="flex justify-between text-lg font-bold text-purple-600">
           <span>Total</span>
           <span>${calculateTotal()}</span>
         </div>
         <div className="text-center">
           <button
             onClick={() => navigate("/review-order")}
-            className="bg-purple-600 text-white mt-6 py-3 px-8 rounded-lg text-lg font-bold hover:bg-purple-700 hover:scale-105 transition-all duration-300"
+            className="bg-purple-600 text-white mt-3 py-2 px-4 rounded-lg text-sm font-bold hover:bg-purple-700 hover:scale-105 transition-all duration-300"
           >
             Proceed
           </button>
